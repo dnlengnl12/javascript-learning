@@ -12,6 +12,6 @@
         "target": "es5",
         "sourceMap": true,
         "removeComments": true,
-        "noImplicitAny": true
+//        "noImplicitAny": true
     }
 }
