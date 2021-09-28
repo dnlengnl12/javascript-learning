@@ -3,12 +3,17 @@ interface DB<T> {
     get(): T;
 }
 
-class LocalDB<T> {
+
+interface JSONSerialier {
+    serialize(): string;
+}
+
+class LocalDB<T extends JSONSerialier> implements DB<T> {
     constructor(private localStroageKey: string) {
 
     }
     add(v: T) {
-        localStorage.setItem(this.localStroageKey, JSON.stringify(v));
+        localStorage.setItem(this.localStroageKey, v.serialize());
     }
     get(): T {
         const v = localStorage.getItem(this.localStroageKey);
@@ -16,8 +21,18 @@ class LocalDB<T> {
     }
 }
 
-interface User { name: string }
+interface Vegitable {
+    v: string;
+}
+interface Meat {
+    m: string;
+}
+interface Cart2<T extends Vegitable | Meat> {
+    getItem(): T extends Vegitable ? Vegitable : Meat
+}
 
-const userDb = new LocalDB<User>('user');
-userDb.add({ name: 'jay' });
-const user1A= userDb.get();
+const cart1: Cart2<Vegitable> = {
+    getItem() {
+        return {v: ''}
+    }
+}
